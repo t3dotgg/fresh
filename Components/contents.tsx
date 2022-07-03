@@ -8,7 +8,7 @@ export default function Content() {
       <img
         src="https://fresh.deno.dev/logo.svg"
         style={{ width: "64px", marginTop: "2rem" }}
-        alt="NextJS logo"
+        alt="Fresh Logo"
       />
       <h1 className={tw`text-2xl`}>
         Theo&apos;s Crappy Benchmark (Fresh On DenoDeploy)
