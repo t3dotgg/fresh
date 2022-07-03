@@ -2,10 +2,9 @@
 import { h } from "preact";
 import { tw } from "@twind";
 
-export default function Content(props: any) {
+export default function Content() {
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
-      {props.children}
       <img
         src="https://fresh.deno.dev/logo.svg"
         style={{ width: "64px", marginTop: "2rem" }}
