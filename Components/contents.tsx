@@ -1,49 +1,39 @@
 /** @jsx h */
 import { h } from "preact";
+import { tw } from "@twind";
 
 export default function Content(props: any) {
-  const renderedAt = new Date();
-  const timeElapsed = renderedAt.getTime() - props.endedAt;
-
-  const requestLatency = "request-latency";
-  const fillId = "fill-with-render-time";
-  const perfFullTime = "perf-full";
-
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
       {props.children}
-      <h1>Profile: {props.login}</h1>
-      <h2>Time to respond in loader: {props.endedAt - props.startedAt}ms</h2>
-      <h2>Time to render AFTER loader (SSR React Time): {timeElapsed}ms</h2>
-      <h2>
-        Request latency (if this is negative it's because the request was
-        cached): <span id={requestLatency} />
-        ms
-      </h2>
-      <h2>
-        Time from server request to CLIENT render: <span id={fillId} />
-        ms
-      </h2>
-      <h2>
-        Request-to-paint time (Chrome only): <span id={perfFullTime} />
-        ms
-      </h2>
-      <a href="/">Back</a>
-      <script>{`
-      const currentTime = new Date();
+      <img
+        src="https://fresh.deno.dev/logo.svg"
+        style={{ width: "64px", marginTop: "2rem" }}
+        alt="NextJS logo"
+      />
+      <h1 className={tw`text-2xl`}>
+        Theo&apos;s Crappy Benchmark (Fresh On DenoDeploy)
+      </h1>
 
-      // Server latency
-      const latencyTime = ${props.startedAt} - window.performance.timing.requestStart;
-      document.getElementById(\`${requestLatency}\`).innerHTML = latencyTime;
-
-      // Request to paint time
-      const timeFromRequestReceived = currentTime.getTime() - ${props.startedAt};
-      document.getElementById(\`${fillId}\`).innerHTML = timeFromRequestReceived;
-
-      // round trip time
+      <h2 className={tw`text-xl`}>
+        <span>
+          Full request to render time (according to Theo):{" "}
+          <span id="overrideme" />
+          ms
+        </span>
+      </h2>
+      <script>
+        {`
+      const currentTime = new Date(); // round trip time
       const fullTime = currentTime - window.performance.timing.requestStart;
-      document.getElementById(\`${perfFullTime}\`).innerHTML = fullTime;
-      `}</script>
+      console.log(\`THEO REPORTS ON Fresh\`, fullTime);
+      document.getElementById(\`overrideme\`).innerHTML = fullTime;
+      const times = JSON.parse(localStorage.getItem(\`fresh-store\`)) ?? [];
+      times.push(fullTime);
+      localStorage.setItem(\`fresh-store\`, JSON.stringify(times));
+      console.table(times);
+        `}
+      </script>
     </div>
   );
 }
